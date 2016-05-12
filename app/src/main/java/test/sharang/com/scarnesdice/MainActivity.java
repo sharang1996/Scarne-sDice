@@ -105,13 +105,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void finishGame()
     {
-        reset();
+
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         String winner;
         if(PlayerTurn) winner = "Player 1";
         else winner = "Player 2";
-
-        builder.setTitle("Game Ends!!").setMessage(winner).setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+        reset();
+        builder.setTitle("Game Ends!!").setMessage(winner+" wins!").setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 reset();
@@ -148,12 +148,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(randomNum==6) dice.setImageDrawable(getResources().getDrawable(R.drawable.dice6));
 
             if(PlayerTurn)
-                P1turnScore+=5;
-            else P2turnScore+=5;
+                P1turnScore+=10;
+            else P2turnScore+=10;
             p1tscore.setText("Player 1 turn score :"+ P1turnScore);
             p2tscore.setText("Player 2 turn score :"+ P2turnScore);
 
-            if(gameEnded()) finishGame();
+            //if(gameEnded()) finishGame();
 
         }
         else {
@@ -185,11 +185,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             P1totalScore+=P1turnScore;
             p1fscore.setText("Player 1 final score :"+ P1totalScore);
+            if(gameEnded()) finishGame();
         }
         else
         {
-            P2totalScore=P2turnScore;
-            p2fscore.setText("Player 2 final score :"+ P2totalScore);
+            P2totalScore+=P2turnScore;
+            p2fscore.setText("Player 2 final score :" + P2totalScore);
+            if(gameEnded()) finishGame();
         }
         score.setText("Player 1 score : "+P1totalScore+" Player 2 score : "+P2totalScore);
         PlayerTurn=!PlayerTurn;
